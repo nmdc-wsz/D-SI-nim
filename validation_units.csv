@@ -1,0 +1,44 @@
+﻿D-SI Identifier,D-SI base unit expression,SI name,pid,prefixRestriction,symbol,unitId,unitType,unitTypeId
+\becquerel,\second\tothe{-1},becquerel,https://si-digital-framework.org/SI/units/becquerel,FALSE,Bq,becquerel,Named SI derived unit,https://si-digital-framework.org/SI#SISpecialNamedUnit
+\coulomb,\second\ampere,coulomb,https://si-digital-framework.org/SI/units/coulomb,FALSE,C,coulomb,Named SI derived unit,https://si-digital-framework.org/SI#SISpecialNamedUnit
+\degreecelsius,\kelvin,degree Celsius,https://si-digital-framework.org/SI/units/degreeCelsius,FALSE,℃,degreeCelsius,Named SI derived unit,https://si-digital-framework.org/SI#SISpecialNamedUnit
+\farad,\metre\tothe{-2}\kilogram\tothe{-1}\second\tothe{4}\ampere\tothe{2},farad,https://si-digital-framework.org/SI/units/farad,FALSE,F,farad,Named SI derived unit,https://si-digital-framework.org/SI#SISpecialNamedUnit
+\gray,\metre\tothe{2}\second\tothe{-2},gray,https://si-digital-framework.org/SI/units/gray,FALSE,Gy,gray,Named SI derived unit,https://si-digital-framework.org/SI#SISpecialNamedUnit
+\henry,\metre\tothe{2}\kilogram\second\tothe{-2}\ampere\tothe{-2},henry,https://si-digital-framework.org/SI/units/henry,FALSE,H,henry,Named SI derived unit,https://si-digital-framework.org/SI#SISpecialNamedUnit
+\hertz,\second\tothe{-1},hertz,https://si-digital-framework.org/SI/units/hertz,FALSE,Hz,hertz,Named SI derived unit,https://si-digital-framework.org/SI#SISpecialNamedUnit
+\joule,\metre\tothe{2}\kilogram\second\tothe{-2},joule,https://si-digital-framework.org/SI/units/joule,FALSE,J,joule,Named SI derived unit,https://si-digital-framework.org/SI#SISpecialNamedUnit
+\katal,\second\tothe{-1}\mole,katal,https://si-digital-framework.org/SI/units/katal,FALSE,kat,katal,Named SI derived unit,https://si-digital-framework.org/SI#SISpecialNamedUnit
+\lumen,\metre\tothe{2}\metre\tothe{-2}\candela,lumen,https://si-digital-framework.org/SI/units/lumen,FALSE,lm,lumen,Named SI derived unit,https://si-digital-framework.org/SI#SISpecialNamedUnit
+\lux,\metre\tothe{-2}\candela,lux,https://si-digital-framework.org/SI/units/lux,FALSE,lx,lux,Named SI derived unit,https://si-digital-framework.org/SI#SISpecialNamedUnit
+\newton,\metre\kilogram\second\tothe{-2},newton,https://si-digital-framework.org/SI/units/newton,FALSE,N,newton,Named SI derived unit,https://si-digital-framework.org/SI#SISpecialNamedUnit
+\ohm,\metre\tothe{2}\kilogram\second\tothe{-3}\ampere\tothe{-2},ohm,https://si-digital-framework.org/SI/units/ohm,FALSE,Ω,ohm,Named SI derived unit,https://si-digital-framework.org/SI#SISpecialNamedUnit
+\pascal,\metre\tothe{-1}\kilogram\second\tothe{-2},pascal,https://si-digital-framework.org/SI/units/pascal,FALSE,Pa,pascal,Named SI derived unit,https://si-digital-framework.org/SI#SISpecialNamedUnit
+\radian,"\metre\metre	othe{-1}",radian,https://si-digital-framework.org/SI/units/radian,FALSE,rad,radian,Named SI derived unit,https://si-digital-framework.org/SI#SISpecialNamedUnit
+\siemens,\metre\tothe{-2}\kilogram\tothe{-1}\second\tothe{3}\ampere\tothe{2},siemens,https://si-digital-framework.org/SI/units/siemens,FALSE,S,siemens,Named SI derived unit,https://si-digital-framework.org/SI#SISpecialNamedUnit
+\sievert,\metre\tothe{2}\second\tothe{-2},sievert,https://si-digital-framework.org/SI/units/sievert,FALSE,Sv,sievert,Named SI derived unit,https://si-digital-framework.org/SI#SISpecialNamedUnit
+\steradian,\metre\tothe{2}\metre\tothe{-2},steradian,https://si-digital-framework.org/SI/units/steradian,FALSE,sr,steradian,Named SI derived unit,https://si-digital-framework.org/SI#SISpecialNamedUnit
+\tesla,\kilogram\second\tothe{-2}\ampere\tothe{-1},tesla,https://si-digital-framework.org/SI/units/tesla,FALSE,T,tesla,Named SI derived unit,https://si-digital-framework.org/SI#SISpecialNamedUnit
+\volt,\metre\tothe{2}\kilogram\second\tothe{-3}\ampere\tothe{-1},volt,https://si-digital-framework.org/SI/units/volt,FALSE,V,volt,Named SI derived unit,https://si-digital-framework.org/SI#SISpecialNamedUnit
+\watt,\metre\tothe{2}\kilogram\second\tothe{-3},watt,https://si-digital-framework.org/SI/units/watt,FALSE,W,watt,Named SI derived unit,https://si-digital-framework.org/SI#SISpecialNamedUnit
+\weber,\metre\tothe{2}\kilogram\second\tothe{-2}\ampere\tothe{-1},weber,https://si-digital-framework.org/SI/units/weber,FALSE,Wb,weber,Named SI derived unit,https://si-digital-framework.org/SI#SISpecialNamedUnit
+\arcminute,,arcminute,https://si-digital-framework.org/SI/units/arcminute,FALSE,′,arcminute,Non-SI unit accepted for use with the SI,https://si-digital-framework.org/SI#nonSIUnit
+\arcsecond,,arcsecond,https://si-digital-framework.org/SI/units/arcsecond,FALSE,″,arcsecond,Non-SI unit accepted for use with the SI,https://si-digital-framework.org/SI#nonSIUnit
+\astronomicalunit,\metre,astronomical unit,https://si-digital-framework.org/SI/units/astronomicalunit,FALSE,au,astronomicalunit,Non-SI unit accepted for use with the SI,https://si-digital-framework.org/SI#nonSIUnit
+\bel,\one,bel,https://si-digital-framework.org/SI/units/bel,FALSE,B,bel,Non-SI unit accepted for use with the SI,https://si-digital-framework.org/SI#nonSIUnit
+\dalton,\kilogram,dalton,https://si-digital-framework.org/SI/units/dalton,FALSE,Da,dalton,Non-SI unit accepted for use with the SI,https://si-digital-framework.org/SI#nonSIUnit
+\day,\second,day,https://si-digital-framework.org/SI/units/day,FALSE,d,day,Non-SI unit accepted for use with the SI,https://si-digital-framework.org/SI#nonSIUnit
+\degree,\radian,degree,https://si-digital-framework.org/SI/units/degree,FALSE,°,degree,Non-SI unit accepted for use with the SI,https://si-digital-framework.org/SI#nonSIUnit
+\electronvolt,\metre\tothe{2}\kilogram\second\tothe{-2},electronvolt,https://si-digital-framework.org/SI/units/electronvolt,FALSE,eV,electronvolt,Non-SI unit accepted for use with the SI,https://si-digital-framework.org/SI#nonSIUnit
+\hectare,\metre\tothe{2},hectare,https://si-digital-framework.org/SI/units/hectare,FALSE,ha,hectare,Non-SI unit accepted for use with the SI,https://si-digital-framework.org/SI#nonSIUnit
+\hour,\second,hour,https://si-digital-framework.org/SI/units/hour,FALSE,h,hour,Non-SI unit accepted for use with the SI,https://si-digital-framework.org/SI#nonSIUnit
+\litre,\metre\tothe{3},litre,https://si-digital-framework.org/SI/units/litre,FALSE,L,litre,Non-SI unit accepted for use with the SI,https://si-digital-framework.org/SI#nonSIUnit
+\minute,\second,minute,https://si-digital-framework.org/SI/units/minute,FALSE,min,minute,Non-SI unit accepted for use with the SI,https://si-digital-framework.org/SI#nonSIUnit
+\neper,\one,neper,https://si-digital-framework.org/SI/units/neper,FALSE,Np,neper,Non-SI unit accepted for use with the SI,https://si-digital-framework.org/SI#nonSIUnit
+\tonne,\kilogram,tonne,https://si-digital-framework.org/SI/units/tonne,FALSE,t,tonne,Non-SI unit accepted for use with the SI,https://si-digital-framework.org/SI#nonSIUnit
+\ampere,,ampere,https://si-digital-framework.org/SI/units/ampere,FALSE,A,ampere,SI base unit,https://si-digital-framework.org/SI#SIBaseUnit
+\candela,,candela,https://si-digital-framework.org/SI/units/candela,FALSE,cd,candela,SI base unit,https://si-digital-framework.org/SI#SIBaseUnit
+\kelvin,,kelvin,https://si-digital-framework.org/SI/units/kelvin,FALSE,K,kelvin,SI base unit,https://si-digital-framework.org/SI#SIBaseUnit
+\kilogram,,kilogram,https://si-digital-framework.org/SI/units/kilogram,FALSE,kg,kilogram,SI base unit,https://si-digital-framework.org/SI#SIBaseUnit
+\metre,,metre,https://si-digital-framework.org/SI/units/metre,FALSE,m,metre,SI base unit,https://si-digital-framework.org/SI#SIBaseUnit
+\mole,,mole,https://si-digital-framework.org/SI/units/mole,FALSE,mol,mole,SI base unit,https://si-digital-framework.org/SI#SIBaseUnit
+\second,,second,https://si-digital-framework.org/SI/units/second,FALSE,s,second,SI base unit,https://si-digital-framework.org/SI#SIBaseUnit

@@ -1,0 +1,1685 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema version="2.2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="https://www.nim.ac.cn/si"
+           xmlns:si="https://www.nim.ac.cn/si"
+           elementFormDefault="qualified">
+
+    <xs:annotation>
+        <xs:documentation xml:lang="en">
+            D-SI - Digital System of Units
+        </xs:documentation>
+        <xs:documentation xml:lang="en">
+        </xs:documentation>
+    </xs:annotation>
+
+
+    <!-- ############## D-SI XML ELEMENT DEFINITIONS FOR MEASUREMETN DATA EXCHANGE #################### -->
+
+    <xs:element name="real" type="si:realQuantityType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                Metadata element definition for a real measurement quantity.
+            </xs:documentation>
+            <xs:documentation xml:lang="en">
+                <![CDATA[
+				The following statements of a real quantity are possible. 
+			    [(m)-mandatory, (o)-optional]
+			    
+			    1. Basic measured quantity
+			    	(o) - element label				(string)
+			    	(m) - element value				(decimal value type)
+			    	(m) - element unit				(string - SI format)
+			    	(o) - element dateTime			(xs:dateTime)
+			      			      
+			    2. Measured quantity with univariate measurement uncertainty
+			    	(o) - element label				(string)
+			    	(m) - element value				(decimal value type)
+			    	(m) - element unit				(string - SI format)
+					(o) - element dateTime			(xs:dateTime)
+			    	(m) - choice si:expandedUnc or si:coverageInterval for the univaraite uncertainty
+				]]>
+            </xs:documentation>
+            <xs:documentation xml:lang="en">
+                <![CDATA[
+				Integration into external XML:
+				<myXML xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:si="https://www.nim.ac.cn/si">
+				  <xs:element name="individualElement">
+			        <xs:complexType>
+			          <xs:sequence>
+			            <xs:element ref="si:real"/>
+			          </xs:sequence>
+			        </xs:complexType>
+			     </xs:element>
+			   </mxXML>
+				]]>
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+    <xs:element name="constant" type="si:constantQuantityType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                Definition of a structure for real numbers, that represent for fundamental
+                physical constants and mathematical constants.
+            </xs:documentation>
+            <xs:documentation xml:lang="en">
+                <![CDATA[
+				The element has the following components [(m)-mandatory, (o)-optional]:
+				 
+				(o) - element label						(string)
+				(m) - element value						(decimal value type) 
+			    (m) - element unit						(string - SI unit) 
+			    (o) - element dateTime					(xs:dateTime)
+			    (o) - element uncertainty				(decimal value >= 0)
+				(o) - element distribution				(string)
+				
+				The value and the uncertainty have the unit specified by the element unit.
+				For fundamental physical constants, that are defined experimentally, the
+				uncertainty is the standard deviation.
+				
+				For rounded mathematical constants, the uncertainty is the standard deviation
+				of a rectangular distribution (element value defines center point), that 
+				contains the exact value of the constant with 100 percent probability.
+				]]>
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+    <xs:element name="complex" type="si:complexQuantityType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                The definition of complex quantities in the D-SI metadata model.
+                Complex quantities allow two representations of complex numerical values:
+                One is the Cartesian coordinate form, the other representation is the
+                polar coordinate form.
+            </xs:documentation>
+            <xs:documentation xml:lang="en">
+                <![CDATA[
+				The following statements of a complex quantity are possible. 
+			    [(m)-mandatory, (o)-optional]
+			    
+			    1. Basic measured quantity in Cartesian form
+			    	(o) - element label				(string)
+			    	(m) - element valueReal			(decimal value type)
+					(m) - element valueImag			(decimal value type)
+			   	 	(m) - element unit				(string - SI unit)
+					(o) - element dateTime			(xs:dateTime)
+				
+				
+				2. Basic measured quantity in polar form
+			    	(o) - element label				(string)
+			    	(m) - element valueMagnitude	(decimal value type)
+					(m) - element valuePhase		(decimal value type)
+			   	 	(m) - element unit				(string - SI unit)
+					(m) - element unitPhase			(string - SI unit for an angular quantity)
+					(o) - element dateTime			(xs:dateTime)
+					
+					
+				3. Basic measured quantity in Cartesian form with bivariate uncertainty
+			    	(o) - element label				(string)
+			    	(m) - element valueReal			(decimal value type)
+					(m) - element valueImag			(decimal value type)
+			   	 	(m) - element unit				(string - SI unit)
+					(o) - element dateTime			(xs:dateTime)
+					(m) - choice si:ellipsoidalRegion or si:rectangularRegion for the bivariate uncertainty
+				
+				
+				4. Basic measured quantity in polar form with bivariate uncertainty
+			    	(o) - element label				(string)
+			    	(m) - element valueMagnitude	(decimal value type)
+					(m) - element valuePhase		(decimal value type)
+			   	 	(m) - element unit				(string - SI unit)
+					(m) - element unitPhase			(string - SI unit for an angular quantity)
+					(o) - element dateTime			(xs:dateTime)
+					(m) - choice si:ellipsoidalRegion or si:rectangularRegion for the bivariate uncertainty
+				]]>
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+    <xs:element name="realList" type="si:realListType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                Meta data element definition for a list of real measurement quantities.
+                The list can represent independent measurement or multivariate vector quantities.
+            </xs:documentation>
+            <xs:documentation xml:lang="en">
+                <![CDATA[
+				 A list can provide the following structures:
+    			   - list of one ore more si:real elements
+			       - optional list timestamp, list label, and/or list unit 
+			       - optional list univariate uncertainty statement with list unit
+				   - optional multivariate hyper-elliptical or hyper-rectangular coverage region
+				]]>
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+    <xs:element name="realListXMLList" type="si:realListXMLListType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                Meta data element definition for a list of real measurement quantities based on
+                the XML type xsd:list. The list can represent independent measurement or multivariate
+                vector quantities. The listed data is separated by blank spaces allowing a memory
+                saving implementation of large data sets.
+            </xs:documentation>
+            <xs:documentation xml:lang="en">
+                <![CDATA[
+				 A list can provide the following structures:
+    			   - list of one ore more si:value elements separated by blank spaces
+			       - optional list timestamp, list label, and/or list unit 
+			       - optional list univariate uncertainty statement with list unit
+				   - optional multivariate hyper-elliptical or hyper-rectangular coverage region
+				]]>
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+    <xs:element name="complexList" type="si:complexListType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                Meta data element definition for a list of complex measurement quantities.
+                The list can represent independent measurement or multivariate vector quantities.
+            </xs:documentation>
+            <xs:documentation xml:lang="en">
+                <![CDATA[
+				 This list can provide the following structures:
+				   - list of one ore more si:complex elements
+			       - optional list timestamp, list label, and/or list unit(s) 
+			       - optional list bivariate uncertainty statement with list unit(s)
+				   - optional multivariate hyper-elliptical or hyper-rectangular coverage region
+				]]>
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+    <xs:element name="list" type="si:listType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                Meta data element definition for a list of basic measurement quantities.
+                The list can represent independent measurement or multivariate vector quantities.
+            </xs:documentation>
+            <xs:documentation xml:lang="en">
+                <![CDATA[
+				 This list can provide the following nested structures:
+			      - si:list elements and
+			      - si:realList elements and
+			      - si:complexList elements
+				]]>
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+    <!-- -->
+    <xs:element name="hybrid" type="si:hybridType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                The hybrid elements allows to add quantities to the
+                machine readable D-SI format, with other units, than those allowed
+                to be used with the SI by means of the BIPM SI brochure.
+            </xs:documentation>
+            <xs:documentation xml:lang="en">
+                <![CDATA[
+				 The hybrid element can contain the following information
+				 
+				 1. A set of real quantities
+				 	- all real elements provide a quantity value for one and the same measured quantity
+				 	- each real element provides this quantity with a different unit
+				 	- at least one real element provides the quantity with a machine readable SI unit
+				 	- the other real quantities can use any SI or non-SI unit
+				 	
+				 2. A set of complex quantities
+				 	- all complex elements provide a quantity value for one and the same measured quantity
+				 	- each complex element provides this quantity with a different unit(s)
+				 	- at least one complex element provides the quantity with a machine readable SI unit(s)
+				 	- the other complex quantities can use any SI or non-SI unit
+				 
+				  3. A set of list elements
+				 	- all list elements must provide the same quantity information and hence, must have
+				 		an identical structure.
+				 	- the lists do only differ by using different units for each of the quantities
+				 	- at least one list  provides all quantities only with machine readable SI units
+				 	- the other lists can use any other units for the quantities
+					- Applicable list types are si:list, si:realList, si:complexList and si:realListXMLList.
+				 
+				  4. A set of constant quantities
+				 	- all constant elements provide a quantity value for one and the same quantity
+				 	- each constant element provides this quantity with a different unit
+				 	- at least one constant element provides the quantity with a machine readable SI unit
+				 	- the other constant quantities can use any SI or non-SI unit
+				]]>
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+    <!-- ############## D-SI SUPPLEMENTAL XML ELEMENT DEFINITIONS #################### -->
+
+    <xs:element name="expandedUnc" type="si:expandedUncType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                Definition of the structure, that gives the necessary components for stating
+                an expanded measurement uncertainty. This element must always be used in the
+                context of a real quantity, which is an application within si:real and/or
+                si:globalUnivariateUnc.
+            </xs:documentation>
+            <xs:documentation xml:lang="en">
+                <![CDATA[
+				The element has the following components [(m)-mandatory, (o)-optional]:
+				 
+				(m) - element uncertainty				(decimal value >= 0, THE EXPANDED UNCERTAINTY VALUE!)
+			    (m) - element coverageFactor			(decimal value >= 1) 
+			    (m) - element coverageProbability		(decimal value in [0,1])
+				(o) - element distribution				(string)
+				
+				The unit of component uncertainty is the unit used in the context of
+				si:real and/or si:globalUnivariateUnc.
+				]]>
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+    <xs:element name="coverageInterval" type="si:coverageIntervalType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                Definition of the structure, that gives the necessary components for stating
+                a probabilistic-symmetric coverage interval for a real uncertainty. This element
+                must always be used in the context of a real quantity, which is an application
+                within si:real and/or si:globalUnivariateUnc.
+            </xs:documentation>
+            <xs:documentation xml:lang="en">
+                <![CDATA[
+				The element has the following components [(m)-mandatory, (o)-optional]:
+				 
+				(m) - element stdUncertainty			(decimal value >= 0)
+				(m) - element intervalMin				(decimal value type) 
+			    (m) - element intervalMax				(decimal value type) 
+			    (m) - element coverageProbability		(decimal value in [0,1])
+				(o) - element distribution				(string)
+				
+				The unit of components stdUncertainty, intervalMin and intervalMax is the unit 
+				used in the context of si:real and/or si:globalUnivaraiteUnc.
+				]]>
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+    <!--  -->
+    <xs:element name="covarianceMatrix" type="si:covarianceMatrixType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                Definition of a covariance matrix element that is used for
+                multidimensional uncertainty statements in the D-SI format.
+            </xs:documentation>
+            <xs:documentation xml:lang="en">
+                <![CDATA[
+				A covariance matrix has n column elements.
+				The dimension of the covariance matrix is the amount of columns.
+				Each column contains the covariance values of one column of the 
+				covariance matrix.
+				The order of the columns is from left to right column in the
+				covariance matrix.
+				]]>
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+    <xs:element name="ellipsoidalRegion" type="si:ellipsoidalRegionType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                Definition of the structure, that provides a hyper-ellipsoidal coverage
+                region for stating the uncertainty of multivariate quantities. It is
+                used in the context of uncertainty for complex quantities and
+                lists of real or complex quantities.
+            </xs:documentation>
+            <xs:documentation xml:lang="en">
+                <![CDATA[
+				The element has the following components [(m)-mandatory, (o)-optional]:
+				 
+				(m) - element covarianceMatrix			(sub structure covarianceMatrix)
+				(m) - element coverageFactor			(decimal value >= 1) 
+			    (m) - element coverageProbability		(decimal value in [0,1]) 
+				(o) - element distribution				(string)
+				]]>
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+    <xs:element name="rectangularRegion" type="si:rectangularRegionType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                Definition of the structure that provides a hyper-rectangular coverage
+                region for stating the uncertainty of multivariate quantities. It is
+                used in the context of uncertainty for complex quantities and
+                lists of real or complex quantities.
+            </xs:documentation>
+            <xs:documentation xml:lang="en">
+                <![CDATA[
+				The element has the following components [(m)-mandatory, (o)-optional]:
+				 
+				(m) - element covarianceMatrix			(sub structure covarianceMatrix)
+				(m) - element coverageFactor			(decimal value >= 1) 
+			    (m) - element coverageProbability		(decimal value in [0,1]) 
+				(o) - element distribution				(string)
+				]]>
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+    <!-- ############## D-SI XML TYPE DEFINITIONS #################### -->
+
+    <xs:complexType name="realQuantityType">
+        <xs:sequence>
+            <!-- optional label and quantity type-->
+            <xs:element name="label" type="xs:string" minOccurs="0"/>
+
+            <!-- mandatory information -->
+            <xs:element name="value" type="si:decimalType"/>
+            <xs:element name="unit" type="si:unitType"/>
+
+            <!-- optional time stamp -->
+            <xs:element name="dateTime" type="xs:dateTime" minOccurs="0"/>
+
+            <!-- optional choice of uncertainty statements -->
+            <xs:choice minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">
+                        univariate measurement uncertainty
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:element name="expandedUnc" type="si:expandedUncType"/>
+                <xs:element name="coverageInterval" type="si:coverageIntervalType"/>
+            </xs:choice>
+
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="constantQuantityType">
+        <xs:sequence>
+            <!-- optional label and quantity type-->
+            <xs:element name="label" type="xs:string" minOccurs="0"/>
+
+            <!-- mandatory information -->
+            <xs:element name="value" type="si:decimalType"/>
+            <xs:element name="unit" type="si:unitType"/>
+
+            <!-- optional time stamp -->
+            <xs:element name="dateTime" type="xs:dateTime" minOccurs="0"/>
+
+            <!-- optional uncertainty -->
+            <xs:element name="uncertainty" type="si:uncertaintyValueType" minOccurs="0"/>
+
+            <!-- optional distribution -->
+            <xs:element name="distribution" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="complexQuantityType">
+        <xs:sequence>
+            <!-- optional label and quantity type-->
+            <xs:element name="label" type="xs:string" minOccurs="0"/>
+
+            <!-- choice of Cartesian coordinate form or polar coordinate form -->
+            <xs:choice>
+                <xs:sequence>
+                    <!-- mandatory components of Cartesian coordinate form -->
+                    <xs:element name="valueReal" type="si:decimalType"/>
+                    <xs:element name="valueImag" type="si:decimalType"/>
+                    <xs:element name="unit" type="si:unitType"/>
+                </xs:sequence>
+                <xs:sequence>
+                    <!-- mandatory components of polar coordinate form -->
+                    <xs:element name="valueMagnitude" type="si:decimalType"/>
+                    <xs:element name="valuePhase" type="si:decimalType"/>
+                    <xs:element name="unit" type="si:unitType"/>
+                    <xs:element name="unitPhase" type="si:unitPhaseType"/>
+                </xs:sequence>
+            </xs:choice>
+            <!-- optional time stamp -->
+            <xs:element name="dateTime" type="xs:dateTime" minOccurs="0"/>
+
+            <!-- optional uncertainty statement: either ellipsoidal or rectangular coverage region -->
+            <xs:choice minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">
+                        bivariate measurement uncertainty
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:element name="ellipsoidalRegion" type="si:ellipsoidalRegionType"/>
+                <xs:element name="rectangularRegion" type="si:rectangularRegionType"/>
+            </xs:choice>
+
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="realInListType">
+        <xs:sequence>
+            <!-- optional local label and local quantity type-->
+            <xs:element name="label" type="xs:string" minOccurs="0"/>
+
+            <!-- mandatory information -->
+            <xs:element name="value" type="si:decimalType"/>
+            <!-- if list unit, then do not write this local unit -->
+            <xs:element name="unit" type="si:unitType" minOccurs="0"/>
+            <!-- optional local time stamp -->
+            <xs:element name="dateTime" type="xs:dateTime" minOccurs="0"/>
+            <!-- optional choice of local uncertainty statements -->
+            <xs:choice minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">
+                        univariate measurement uncertainty
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:element name="expandedUnc" type="si:expandedUncType"/>
+                <xs:element name="coverageInterval" type="si:coverageIntervalType"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="complexInListType">
+        <xs:sequence>
+            <!-- optional local label and local quantity type-->
+            <xs:element name="label" type="xs:string" minOccurs="0"/>
+
+            <!-- choice of Cartesian coordinate form or polar coordinate form -->
+            <xs:choice>
+                <xs:sequence>
+                    <!-- mandatory components of Cartesian coordinate form -->
+                    <xs:element name="valueReal" type="si:decimalType"/>
+                    <xs:element name="valueImag" type="si:decimalType"/>
+                    <!-- if list unit, then do not write this local unit -->
+                    <xs:element name="unit" type="si:unitType" minOccurs="0"/>
+                </xs:sequence>
+                <xs:sequence>
+                    <!-- mandatory components of polar coordinate form -->
+                    <xs:element name="valueMagnitude" type="si:decimalType"/>
+                    <xs:element name="valuePhase" type="si:decimalType"/>
+                    <!-- if list unit, then do not write this local unit -->
+                    <xs:element name="unit" type="si:unitType" minOccurs="0"/>
+                    <!-- if list unit, then do not write this local unit -->
+                    <xs:element name="unitPhase" type="si:unitPhaseType" minOccurs="0"/>
+                </xs:sequence>
+            </xs:choice>
+            <!-- optional local time stamp -->
+            <xs:element name="dateTime" type="xs:dateTime" minOccurs="0"/>
+
+            <!-- optional local uncertainty statement: either ellipsoidal or rectangular coverage region -->
+            <xs:choice minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">
+                        bivariate measurement uncertainty
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:element name="ellipsoidalRegion" type="si:ellipsoidalRegionType"/>
+                <xs:element name="rectangularRegion" type="si:rectangularRegionType"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="realListType">
+        <xs:sequence>
+            <!-- optional label of the list-->
+            <xs:element name="label" type="xs:string" minOccurs="0"/>
+            <!-- optional list time stamp -->
+            <xs:element name="dateTime" type="xs:dateTime" minOccurs="0"/>
+            <!-- optional list unit -->
+            <xs:element name="listUnit" type="si:unitType" minOccurs="0"/>
+            <!-- optional list uncertainty -->
+
+            <xs:element name="listUnivariateUnc" type="si:listUnivariateUncType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">
+                        Definition of a structure, for a global univariate uncertainty, that
+                        is used within the list structure with a list of real quantities.
+                        The global univariate uncertainty can either be given as an expanded
+                        measurement uncertainty or as a coverage interval.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <!-- mandatory list of real elements -->
+            <xs:element name="real" type="si:realInListType" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">
+                        Meta data element definition for a real measurement quantity in list.
+                        This implementation differs from the pure real quantity in the way that
+                        the unit component is optional in order to allow a combination with
+                        a global unit in the list of real quantities.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <!-- optional multivariate uncertainty statement -->
+            <xs:choice minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">
+                        multivariate measurement uncertainty
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:element name="ellipsoidalRegion" type="si:ellipsoidalRegionType"/>
+                <xs:element name="rectangularRegion" type="si:rectangularRegionType"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="realListXMLListType">
+        <xs:sequence>
+            <!-- optional label and quantity type-->
+            <xs:element name="labelXMLList" type="si:stringXMLListType" minOccurs="0"/>
+
+            <!-- mandatory information -->
+            <xs:element name="valueXMLList" type="si:decimalXMLListType"/>
+            <xs:element name="unitXMLList" type="si:unitXMLListType"/>
+
+            <!-- optional time stamp -->
+            <xs:element name="dateTimeXMLList" type="si:dateTimeXMLListType" minOccurs="0"/>
+
+            <!-- optional choice of uncertainty statements -->
+            <xs:choice minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">
+                        univariate measurement uncertainty
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:element name="expandedUncXMLList" type="si:expandedUncXMLListType"/>
+                <xs:element name="coverageIntervalXMLList" type="si:coverageIntervalXMLListType"/>
+            </xs:choice>
+
+            <xs:choice minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">
+                        multivariate measurement uncertainty
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:element name="ellipsoidalRegionXMLList" type="si:ellipsoidalRegionType"/>
+                <xs:element name="rectangularRegionXMLList" type="si:rectangularRegionType"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="complexListType">
+        <xs:sequence>
+            <!-- optional label of the list -->
+            <xs:element name="label" type="xs:string" minOccurs="0"/>
+            <!-- optional list time stamp -->
+            <xs:element name="dateTime" type="xs:dateTime" minOccurs="0"/>
+            <!-- optional list unit -->
+            <xs:element name="listUnit" type="si:unitType" minOccurs="0"/>
+            <xs:element name="listUnitPhase" type="xs:string" minOccurs="0"/>
+            <!-- optional list bivariate uncertainty -->
+
+            <xs:element name="listBivariateUnc" type="si:listBivariateUncType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">
+                        Definition of a structure, for a global bivariate uncertainty, that
+                        is used within the list structure with a list of complex quantities.
+                        The global bivariate uncertainty can either be given as a hyper-ellipsoidal
+                        coverage region or a hyper-rectangular coverage region. Both
+                        coverage regions must provide a covariance matrix of dimension 2.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <!-- mandatory list of complex elements -->
+            <xs:element name="complex" type="si:complexInListType" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">
+                        Meta data element definition for a complex measurement quantity in list.
+                        This implementation differs from the pure complex quantity, in the way that
+                        the unit components are optional in order to allow a combination with
+                        a global unit in the list of complex quantities.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <!-- optional multivariate uncertainty statement -->
+            <xs:choice minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">
+                        multivariate measurement uncertainty
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:element name="ellipsoidalRegion" type="si:ellipsoidalRegionType"/>
+                <xs:element name="rectangularRegion" type="si:rectangularRegionType"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="listType">
+        <xs:sequence>
+            <!-- optional label of the list -->
+            <xs:element name="label" type="xs:string" minOccurs="0"/>
+            <!-- optional list time stamp -->
+            <xs:element name="dateTime" type="xs:dateTime" minOccurs="0"/>
+
+            <!-- selection between list of lists and list of real or complex -->
+            <xs:choice maxOccurs="unbounded">
+                <!-- either list of real -->
+                <xs:element name="realList" type="si:realListType"/>
+                <!-- or list of complex -->
+                <xs:element name="complexList" type="si:complexListType"/>
+                <!-- or list of lists -->
+                <xs:element name="list" type="si:listType"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="hybridType">
+        <xs:sequence>
+            <!-- mandatory adapter for at least one SI quantity and additional (non-) SI quantities -->
+            <xs:choice>
+                <xs:element name="real" type="si:realQuantityType" minOccurs="1" maxOccurs="unbounded"/>
+                <xs:element name="complex" type="si:complexQuantityType" minOccurs="1" maxOccurs="unbounded"/>
+                <xs:element name="list" type="si:listType" minOccurs="1" maxOccurs="unbounded"/>
+                <xs:element name="realList" type="si:realListType" minOccurs="1" maxOccurs="unbounded"/>
+                <xs:element name="realListXMLList" type="si:realListXMLListType" minOccurs="1" maxOccurs="unbounded"/>
+                <xs:element name="complexList" type="si:complexListType" minOccurs="1" maxOccurs="unbounded"/>
+                <xs:element name="constant" type="si:constantQuantityType" minOccurs="1" maxOccurs="unbounded"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="expandedUncType">
+        <xs:sequence>
+            <xs:element name="uncertainty" type="si:uncertaintyValueType"/>
+            <xs:element name="coverageFactor" type="si:kValueType"/>
+            <xs:element name="coverageProbability" type="si:probabilityValueType"/>
+            <xs:element name="distribution" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="expandedUncXMLListType">
+        <xs:sequence>
+            <xs:element name="uncertaintyXMLList" type="si:uncertaintyValueXMLListType"/>
+            <xs:element name="coverageFactorXMLList" type="si:kValueXMLListType"/>
+            <xs:element name="coverageProbabilityXMLList" type="si:probabilityValueXMLListType"/>
+            <xs:element name="distributionXMLList" type="si:stringXMLListType" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="coverageIntervalType">
+        <xs:sequence>
+            <xs:element name="standardUnc" type="si:uncertaintyValueType"/>
+            <xs:element name="intervalMin" type="si:decimalType"/>
+            <xs:element name="intervalMax" type="si:decimalType"/>
+            <xs:element name="coverageProbability" type="si:probabilityValueType"/>
+            <xs:element name="distribution" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="coverageIntervalXMLListType">
+        <xs:sequence>
+            <xs:element name="standardUncXMLList" type="si:uncertaintyValueXMLListType"/>
+            <xs:element name="intervalMinXMLList" type="si:decimalXMLListType"/>
+            <xs:element name="intervalMaxXMLList" type="si:decimalXMLListType"/>
+            <xs:element name="coverageProbabilityXMLList" type="si:probabilityValueXMLListType"/>
+            <xs:element name="distributionXMLList" type="si:stringXMLListType" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="covarianceMatrixType">
+        <xs:sequence>
+            <xs:element name="column" minOccurs="1" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">
+                        Definition of a column in the covariance matrix.
+                    </xs:documentation>
+                    <xs:documentation xml:lang="en">
+                        <![CDATA[
+							The column has n covariance elements, where
+							n is the amount of columns in the covariance matrix.
+							
+							The covariance elements are ordered as in the covariance matrix, started
+							at the element in the first row of the matrix and going to the
+							last row of the matrix.
+							]]>
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="covariance" minOccurs="1" maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation xml:lang="en">
+                                    Each covariance component is defined by
+                                    - element value (decimal value type)
+                                    - element unit (string - SI format)
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="value" type="si:decimalType"/>
+                                    <xs:element name="unit" type="si:unitType"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="ellipsoidalRegionType">
+        <xs:sequence>
+            <!-- covariance matrix data -->
+            <xs:element name="covarianceMatrix" type="si:covarianceMatrixType"/>
+            <!-- coverage properties of region -->
+            <xs:element name="coverageFactor" type="si:kValueType"/>
+            <xs:element name="coverageProbability" type="si:probabilityValueType"/>
+            <!-- optional information about distribution -->
+            <xs:element name="distribution" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="rectangularRegionType">
+        <xs:sequence>
+            <!-- covariance matrix data -->
+            <xs:element name="covarianceMatrix" type="si:covarianceMatrixType"/>
+            <!-- coverage properties of region -->
+            <xs:element name="coverageFactor" type="si:kValueType"/>
+            <xs:element name="coverageProbability" type="si:probabilityValueType"/>
+            <!-- optional information about distribution -->
+            <xs:element name="distribution" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="listUnivariateUncType">
+        <xs:choice>
+            <xs:annotation>
+                <xs:documentation xml:lang="en">
+                    univariate measurement uncertainty
+                </xs:documentation>
+            </xs:annotation>
+            <xs:element name="expandedUnc" type="si:expandedUncType"/>
+            <xs:element name="coverageInterval" type="si:coverageIntervalType"/>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="listBivariateUncType">
+        <xs:choice minOccurs="0">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">
+                    bivariate measurement uncertainty
+                </xs:documentation>
+            </xs:annotation>
+            <xs:element name="ellipsoidalRegion" type="si:ellipsoidalRegionType"/>
+            <xs:element name="rectangularRegion" type="si:rectangularRegionType"/>
+        </xs:choice>
+    </xs:complexType>
+
+
+    <!-- ############## D-SI XML INTERNALLY USED SIMPLE TYPE DEFINITIONS #################### -->
+
+    <xs:simpleType name="unitType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                BIPM SI brochure unit (9th edition).
+                Based on xs:string.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern
+                    value="(((\\(quecto|ronto|yocto|zepto|atto|femto|pico|nano|micro|milli|centi|deci|deca|hecto|kilo|mega|giga|tera|peta|exa|zetta|yotta|ronna|quetta))?(\\(ampere|arcminute|arcsecond|astronomicalUnit|becquerel|bel|candela|coulomb|dalton|day|degree|degreeCelsius|electronvolt|farad|gray|hectare|henry|hertz|hour|joule|katal|kelvin|litre|lumen|lux|metre|minute|mole|neper|newton|ohm|pascal|radian|second|siemens|sievert|steradian|tesla|tonne|volt|watt|weber))(\\tothe\{((-?[0-9]*)|(0\.5))\})?)|((\\(quecto|ronto|yocto|zepto|atto|femto|pico|nano|micro|milli|centi|deci|deca|hecto|mega|giga|tera|peta|exa|zetta|yotta|ronna|quetta))?(\\(ampere|arcminute|arcsecond|astronomicalUnit|becquerel|bel|candela|coulomb|dalton|day|degree|degreeCelsius|electronvolt|farad|gray|hectare|henry|hertz|hour|joule|katal|kelvin|litre|lumen|lux|metre|minute|mole|neper|newton|ohm|pascal|radian|second|siemens|sievert|steradian|tesla|tonne|volt|watt|weber|gram))(\\tothe\{((-?[0-9]*)|(0\.5))\})?)|((\\kilogram)(\\tothe\{((-?[0-9]*)|(0\.5))\})?))+"/>        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:simpleType name="unitPhaseType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                Unit of angular quantity in SI.
+                Based on xs:string.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:simpleType name="decimalType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                Scientific decimal format for numerical values.
+                Based on type xs:double.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:double">
+            <xs:pattern value="[-+]?((\d*\.\d+)|(\d+\.\d*)|(\d+\.?))([Ee][-+]?\d+)?"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:simpleType name="uncertaintyValueType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                Scientific decimal format for numerical values of uncertainties
+                that must be positive (greater than zero or equal to zero).
+                Based on type xs:double.
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:restriction base="xs:double">
+            <xs:pattern value="\+?((\d*\.\d+)|(\d+\.\d*)|(\d+\.?))([Ee][-+]?\d+)?"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="kValueType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                Scientific decimal format for coverage factor values for uncertainties
+                that must be greater than one or equal to one.
+                Based on type xs:double.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:double">
+            <xs:pattern value="\+?(([1-9]\d*\.\d*)|([1-9]\d*))"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:simpleType name="probabilityValueType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                Decimal format for coverage probability values for uncertainties.
+                The value must be within the interval [0,1]. The scientific exponent
+                "e" (or "E") is not allowed.
+                Based on type xs:double.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:double">
+            <xs:pattern value="\+?((0(\.\d*)?)|(1(\.0*)?))"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <!-- ############## D-SI XML-Lists for D-SI SimpleTypes #################### -->
+    <xs:simpleType name="unitXMLListType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                Type providing listing of units (si:unitType)
+                with separation by blank spaces.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:list itemType="si:unitType"/>
+    </xs:simpleType>
+
+    <xs:simpleType name="unitPhaseXMLListType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                Type providing listing of phase angle units (si:unitPhase Type)
+                with separation by blank spaces.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:list itemType="si:unitPhaseType"/>
+    </xs:simpleType>
+
+    <xs:simpleType name="decimalXMLListType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                Type providing listing of values (si:decimalType)
+                with separation by blank spaces.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:list itemType="si:decimalType"/>
+    </xs:simpleType>
+
+    <xs:simpleType name="uncertaintyValueXMLListType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                Type providing listing of uncertainty values (si:uncertaintyValueType)
+                with separation by blank spaces.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:list itemType="si:uncertaintyValueType"/>
+    </xs:simpleType>
+
+    <xs:simpleType name="kValueXMLListType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                Type providing listing of coverage factor values (si:kValueType)
+                with separation by blank spaces.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:list itemType="si:kValueType"/>
+    </xs:simpleType>
+
+    <xs:simpleType name="probabilityValueXMLListType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                Type providing listing of coverage probability values (si:probabilityValueType)
+                with separation by blank spaces.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:list itemType="si:probabilityValueType"/>
+    </xs:simpleType>
+
+    <xs:simpleType name="dateTimeXMLListType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                Type providing listing of time values (xs:dateTime)
+                with separation by blank spaces.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:list itemType="xs:dateTime"/>
+    </xs:simpleType>
+
+    <xs:simpleType name="stringXMLListType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                Type providing listing of strings (xs:string)
+                with separation by blank spaces.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:list itemType="xs:string"/>
+    </xs:simpleType>
+
+    <!--Unit Definition: D-SI & SI Reference Point-->
+
+    <!--	单位定义 枚举类型-->
+    <xs:complexType name="unitDefinitionType">
+        <xs:choice>
+            <xs:element name="ampere" type="si:ampereType"/>
+            <xs:element name="arcminute" type="si:arcminuteType"/>
+            <xs:element name="arcsecond" type="si:arcsecondType"/>
+            <xs:element name="astronomicalUnit" type="si:astronomicalUnitType"/>
+            <xs:element name="becquerel" type="si:becquerelType"/>
+            <xs:element name="bel" type="si:belType"/>
+            <xs:element name="candela" type="si:candelaType"/>
+            <xs:element name="coulomb" type="si:coulombType"/>
+            <xs:element name="dalton" type="si:daltonType"/>
+            <xs:element name="day" type="si:dayType"/>
+            <xs:element name="degree" type="si:degreeType"/>
+            <xs:element name="degreeCelsius" type="si:degreeCelsiusType"/>
+            <xs:element name="electronvolt" type="si:electronvoltType"/>
+            <xs:element name="farad" type="si:faradType"/>
+            <xs:element name="gray" type="si:grayType"/>
+            <xs:element name="hectare" type="si:hectareType"/>
+            <xs:element name="henry" type="si:henryType"/>
+            <xs:element name="hertz" type="si:hertzType"/>
+            <xs:element name="hour" type="si:hourType"/>
+            <xs:element name="joule" type="si:jouleType"/>
+            <xs:element name="katal" type="si:katalType"/>
+            <xs:element name="kelvin" type="si:kelvinType"/>
+            <xs:element name="kilogram" type="si:kilogramType"/>
+            <xs:element name="litre" type="si:litreType"/>
+            <xs:element name="lumen" type="si:lumenType"/>
+            <xs:element name="lux" type="si:luxType"/>
+            <xs:element name="metre" type="si:metreType"/>
+            <xs:element name="minute" type="si:minuteType"/>
+            <xs:element name="mole" type="si:moleType"/>
+            <xs:element name="neper" type="si:neperType"/>
+            <xs:element name="newton" type="si:newtonType"/>
+            <xs:element name="ohm" type="si:ohmType"/>
+            <xs:element name="pascal" type="si:pascalType"/>
+            <xs:element name="radian" type="si:radianType"/>
+            <xs:element name="second" type="si:secondType"/>
+            <xs:element name="siemens" type="si:siemensType"/>
+            <xs:element name="sievert" type="si:sievertType"/>
+            <xs:element name="steradian" type="si:steradianType"/>
+            <xs:element name="tesla" type="si:teslaType"/>
+            <xs:element name="tonne" type="si:tonneType"/>
+            <xs:element name="volt" type="si:voltType"/>
+            <xs:element name="watt" type="si:wattType"/>
+            <xs:element name="weber" type="si:weberType"/>
+            <xs:element name="quecto" type="si:quectoPrefixType"/>
+            <xs:element name="ronto" type="si:rontoPrefixType"/>
+            <xs:element name="yocto" type="si:yoctoPrefixType"/>
+            <xs:element name="zepto" type="si:zeptoPrefixType"/>
+            <xs:element name="atto" type="si:attoPrefixType"/>
+            <xs:element name="femto" type="si:femtoPrefixType"/>
+            <xs:element name="pico" type="si:picoPrefixType"/>
+            <xs:element name="nano" type="si:nanoPrefixType"/>
+            <xs:element name="micro" type="si:microPrefixType"/>
+            <xs:element name="milli" type="si:milliPrefixType"/>
+            <xs:element name="centi" type="si:centiPrefixType"/>
+            <xs:element name="deci" type="si:deciPrefixType"/>
+            <xs:element name="deca" type="si:decaPrefixType"/>
+            <xs:element name="hecto" type="si:hectoPrefixType"/>
+            <xs:element name="kilo" type="si:kiloPrefixType"/>
+            <xs:element name="mega" type="si:megaPrefixType"/>
+            <xs:element name="giga" type="si:gigaPrefixType"/>
+            <xs:element name="tera" type="si:teraPrefixType"/>
+            <xs:element name="peta" type="si:petaPrefixType"/>
+            <xs:element name="exa" type="si:exaPrefixType"/>
+            <xs:element name="zetta" type="si:zettaPrefixType"/>
+            <xs:element name="yotta" type="si:yottaPrefixType"/>
+            <xs:element name="ronna" type="si:ronnaPrefixType"/>
+            <xs:element name="quetta" type="si:quettaPrefixType"/>
+        </xs:choice>
+    </xs:complexType>
+    <!--	单位及前缀的元数据说明-->
+    <xs:complexType name="ampereType">
+        <xs:attribute name="unitName" type="xs:string" fixed="ampere"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="A"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\ampere"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/ampere"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed=""/>
+        <xs:attribute name="type" type="xs:string" fixed="SI base unit"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#SIBaseUnit"/>
+    </xs:complexType>
+    <xs:complexType name="arcminuteType">
+        <xs:attribute name="unitName" type="xs:string" fixed="arcminute"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="‘"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\arcminute"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/arcminute"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed=""/>
+        <xs:attribute name="type" type="xs:string" fixed="Non-SI unit accepted for use with the SI"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#nonSIUnit"/>
+    </xs:complexType>
+    <xs:complexType name="arcsecondType">
+        <xs:attribute name="unitName" type="xs:string" fixed="arcsecond"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="“"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\arcsecond"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/arcsecond"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed=""/>
+        <xs:attribute name="type" type="xs:string" fixed="Non-SI unit accepted for use with the SI"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#nonSIUnit"/>
+    </xs:complexType>
+    <xs:complexType name="astronomicalUnitType">
+        <xs:attribute name="unitName" type="xs:string" fixed="astronomical unit"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="au"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\astronomicalunit"/>
+        <xs:attribute name="sirpPID" type="xs:string"
+                      fixed="https://si-digital-framework.org/SI/units/astronomicalunit"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed="\metre"/>
+        <xs:attribute name="type" type="xs:string" fixed="Non-SI unit accepted for use with the SI"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#nonSIUnit"/>
+    </xs:complexType>
+    <xs:complexType name="becquerelType">
+        <xs:attribute name="unitName" type="xs:string" fixed="becquerel"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="Bq"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\becquerel"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/becquerel"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed="\second\tothe{-1}"/>
+        <xs:attribute name="type" type="xs:string" fixed="Named SI derived unit"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#SISpecialNamedUnit"/>
+    </xs:complexType>
+    <xs:complexType name="belType">
+        <xs:attribute name="unitName" type="xs:string" fixed="bel"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="B"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\bel"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/bel"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed="\one"/>
+        <xs:attribute name="type" type="xs:string" fixed="Non-SI unit accepted for use with the SI"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#nonSIUnit"/>
+    </xs:complexType>
+    <xs:complexType name="candelaType">
+        <xs:attribute name="unitName" type="xs:string" fixed="candela"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="cd"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\candela"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/candela"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed=""/>
+        <xs:attribute name="type" type="xs:string" fixed="SI base unit"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#SIBaseUnit"/>
+    </xs:complexType>
+    <xs:complexType name="coulombType">
+        <xs:attribute name="unitName" type="xs:string" fixed="coulomb"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="C"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\coulomb"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/coulomb"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed="\second\ampere"/>
+        <xs:attribute name="type" type="xs:string" fixed="Named SI derived unit"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#SISpecialNamedUnit"/>
+    </xs:complexType>
+    <xs:complexType name="daltonType">
+        <xs:attribute name="unitName" type="xs:string" fixed="dalton"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="Da"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\dalton"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/dalton"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed="\kilogram"/>
+        <xs:attribute name="type" type="xs:string" fixed="Non-SI unit accepted for use with the SI"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#nonSIUnit"/>
+    </xs:complexType>
+    <xs:complexType name="dayType">
+
+        <xs:attribute name="symbol" type="xs:string" fixed="d"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\day"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/day"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed="\second"/>
+        <xs:attribute name="type" type="xs:string" fixed="Non-SI unit accepted for use with the SI"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#nonSIUnit"/>
+    </xs:complexType>
+    <xs:complexType name="degreeType">
+        <xs:attribute name="unitName" type="xs:string" fixed="degree"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="°"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\degree"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/degree"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed="\radian"/>
+        <xs:attribute name="type" type="xs:string" fixed="Non-SI unit accepted for use with the SI"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#nonSIUnit"/>
+    </xs:complexType>
+    <xs:complexType name="degreeCelsiusType">
+        <xs:attribute name="unitName" type="xs:string" fixed="degree Celsius"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="°C"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\degreecelsius"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/degreeCelsius"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed="\kelvin"/>
+        <xs:attribute name="type" type="xs:string" fixed="Named SI derived unit"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#SISpecialNamedUnit"/>
+    </xs:complexType>
+    <xs:complexType name="electronvoltType">
+        <xs:attribute name="unitName" type="xs:string" fixed="electronvolt"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="eV"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\electronvolt"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/electronvolt"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed="\metre\tothe{2}\kilogram\second\tothe{-2}"/>
+        <xs:attribute name="type" type="xs:string" fixed="Non-SI unit accepted for use with the SI"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#nonSIUnit"/>
+    </xs:complexType>
+    <xs:complexType name="faradType">
+        <xs:attribute name="unitName" type="xs:string" fixed="farad"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="F"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\farad"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/farad"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string"
+                      fixed="\metre\tothe{-2}\kilogram\tothe{-1}\second\tothe{4}\ampere\tothe{2}"/>
+        <xs:attribute name="type" type="xs:string" fixed="Named SI derived unit"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#SISpecialNamedUnit"/>
+    </xs:complexType>
+    <xs:complexType name="grayType">
+        <xs:attribute name="unitName" type="xs:string" fixed="gray"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="Gy"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\gray"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/gray"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed="\metre\tothe{2}\second\tothe{-2}"/>
+        <xs:attribute name="type" type="xs:string" fixed="Named SI derived unit"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#SISpecialNamedUnit"/>
+    </xs:complexType>
+    <xs:complexType name="hectareType">
+        <xs:attribute name="unitName" type="xs:string" fixed="hectare"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="ha"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\hectare"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/hectare"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed="\metre\tothe{2}"/>
+        <xs:attribute name="type" type="xs:string" fixed="Non-SI unit accepted for use with the SI"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#nonSIUnit"/>
+    </xs:complexType>
+    <xs:complexType name="henryType">
+        <xs:attribute name="unitName" type="xs:string" fixed="henry"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="H"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\henry"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/henry"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string"
+                      fixed="\metre\tothe{2}\kilogram\second\tothe{-2}\ampere\tothe{-2}"/>
+        <xs:attribute name="type" type="xs:string" fixed="Named SI derived unit"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#SISpecialNamedUnit"/>
+    </xs:complexType>
+    <xs:complexType name="hertzType">
+        <xs:attribute name="unitName" type="xs:string" fixed="hertz"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="Hz"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\hertz"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/hertz"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed="\second\tothe{-1}"/>
+        <xs:attribute name="type" type="xs:string" fixed="Named SI derived unit"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#SISpecialNamedUnit"/>
+    </xs:complexType>
+    <xs:complexType name="hourType">
+        <xs:attribute name="unitName" type="xs:string" fixed="hour"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="h"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\hour"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/hour"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed="\second"/>
+        <xs:attribute name="type" type="xs:string" fixed="Non-SI unit accepted for use with the SI"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#nonSIUnit"/>
+    </xs:complexType>
+    <xs:complexType name="jouleType">
+        <xs:attribute name="unitName" type="xs:string" fixed="joule"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="J"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\joule"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/joule"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed="\metre\tothe{2}\kilogram\second\tothe{-2}"/>
+        <xs:attribute name="type" type="xs:string" fixed="Named SI derived unit"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#SISpecialNamedUnit"/>
+    </xs:complexType>
+    <xs:complexType name="katalType">
+        <xs:attribute name="unitName" type="xs:string" fixed="katal"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="kat"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\katal"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/katal"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed="\second\tothe{-1}\mole"/>
+        <xs:attribute name="type" type="xs:string" fixed="Named SI derived unit"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#SISpecialNamedUnit"/>
+    </xs:complexType>
+    <xs:complexType name="kelvinType">
+        <xs:attribute name="unitName" type="xs:string" fixed="kelvin"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="K"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\kelvin"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/kelvin"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed=""/>
+        <xs:attribute name="type" type="xs:string" fixed="SI base unit"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#SIBaseUnit"/>
+    </xs:complexType>
+    <xs:complexType name="kilogramType">
+        <xs:attribute name="unitName" type="xs:string" fixed="kilogram"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="kg"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\kilogram"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/kilogram"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed=""/>
+        <xs:attribute name="type" type="xs:string" fixed="SI base unit"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#SIBaseUnit"/>
+    </xs:complexType>
+    <xs:complexType name="litreType">
+        <xs:attribute name="unitName" type="xs:string" fixed="litre"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="l"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\litre"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/litre"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed="\metre\tothe{3}"/>
+        <xs:attribute name="type" type="xs:string" fixed="Non-SI unit accepted for use with the SI"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#nonSIUnit"/>
+    </xs:complexType>
+    <xs:complexType name="lumenType">
+        <xs:attribute name="unitName" type="xs:string" fixed="lumen"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="lm"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\lumen"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/lumen"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed="\metre\tothe{2}\metre\tothe{-2}\candela"/>
+        <xs:attribute name="type" type="xs:string" fixed="Named SI derived unit"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#SISpecialNamedUnit"/>
+    </xs:complexType>
+    <xs:complexType name="luxType">
+        <xs:attribute name="unitName" type="xs:string" fixed="lux"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="lx"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\lux"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/lux"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed="\metre\tothe{-2}\candela"/>
+        <xs:attribute name="type" type="xs:string" fixed="Named SI derived unit"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#SISpecialNamedUnit"/>
+    </xs:complexType>
+    <xs:complexType name="metreType">
+        <xs:attribute name="unitName" type="xs:string" fixed="metre"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="m"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\metre"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/metre"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed=""/>
+        <xs:attribute name="type" type="xs:string" fixed="SI base unit"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#SIBaseUnit"/>
+    </xs:complexType>
+    <xs:complexType name="minuteType">
+        <xs:attribute name="unitName" type="xs:string" fixed="minute"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="min"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\minute"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/minute"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed="\second"/>
+        <xs:attribute name="type" type="xs:string" fixed="Non-SI unit accepted for use with the SI"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#nonSIUnit"/>
+    </xs:complexType>
+    <xs:complexType name="moleType">
+        <xs:attribute name="unitName" type="xs:string" fixed="mole"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="mol"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\mole"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/mole"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed=""/>
+        <xs:attribute name="type" type="xs:string" fixed="SI base unit"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#SIBaseUnit"/>
+    </xs:complexType>
+    <xs:complexType name="neperType">
+        <xs:attribute name="unitName" type="xs:string" fixed="neper"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="Np"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\neper"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/neper"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed="\one"/>
+        <xs:attribute name="type" type="xs:string" fixed="Non-SI unit accepted for use with the SI"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#nonSIUnit"/>
+    </xs:complexType>
+    <xs:complexType name="newtonType">
+        <xs:attribute name="unitName" type="xs:string" fixed="newton"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="N"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\newton"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/newton"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed="\metre\kilogram\second\tothe{-2}"/>
+        <xs:attribute name="type" type="xs:string" fixed="Named SI derived unit"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#SISpecialNamedUnit"/>
+    </xs:complexType>
+    <xs:complexType name="ohmType">
+        <xs:attribute name="unitName" type="xs:string" fixed="ohm"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="Ω"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\ohm"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/ohm"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string"
+                      fixed="\metre\tothe{2}\kilogram\second\tothe{-3}\ampere\tothe{-2}"/>
+        <xs:attribute name="type" type="xs:string" fixed="Named SI derived unit"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#SISpecialNamedUnit"/>
+    </xs:complexType>
+    <xs:complexType name="pascalType">
+        <xs:attribute name="unitName" type="xs:string" fixed="pascal"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="Pa"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\pascal"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/pascal"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed="\metre\tothe{-1}\kilogram\second\tothe{-2}"/>
+        <xs:attribute name="type" type="xs:string" fixed="Named SI derived unit"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#SISpecialNamedUnit"/>
+    </xs:complexType>
+    <xs:complexType name="radianType">
+        <xs:attribute name="unitName" type="xs:string" fixed="radian"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="rad"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\radian"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/radian"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed="\metre\metre	othe{-1}"/>
+        <xs:attribute name="type" type="xs:string" fixed="Named SI derived unit"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#SISpecialNamedUnit"/>
+    </xs:complexType>
+    <xs:complexType name="secondType">
+        <xs:attribute name="unitName" type="xs:string" fixed="second"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="s"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\second"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/second"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed=""/>
+        <xs:attribute name="type" type="xs:string" fixed="SI base unit"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#SIBaseUnit"/>
+    </xs:complexType>
+    <xs:complexType name="siemensType">
+        <xs:attribute name="unitName" type="xs:string" fixed="siemens"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="S"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\siemens"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/siemens"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string"
+                      fixed="\metre\tothe{-2}\kilogram\tothe{-1}\second\tothe{3}\ampere\tothe{2}"/>
+        <xs:attribute name="type" type="xs:string" fixed="Named SI derived unit"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#SISpecialNamedUnit"/>
+    </xs:complexType>
+    <xs:complexType name="sievertType">
+        <xs:attribute name="unitName" type="xs:string" fixed="sievert"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="Sv"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\sievert"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/sievert"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed="\metre\tothe{2}\second\tothe{-2}"/>
+        <xs:attribute name="type" type="xs:string" fixed="Named SI derived unit"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#SISpecialNamedUnit"/>
+    </xs:complexType>
+    <xs:complexType name="steradianType">
+        <xs:attribute name="unitName" type="xs:string" fixed="steradian"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="sr"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\steradian"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/steradian"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed="\metre\tothe{2}\metre\tothe{-2}"/>
+        <xs:attribute name="type" type="xs:string" fixed="Named SI derived unit"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#SISpecialNamedUnit"/>
+    </xs:complexType>
+    <xs:complexType name="teslaType">
+        <xs:attribute name="unitName" type="xs:string" fixed="tesla"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="T"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\tesla"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/tesla"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string"
+                      fixed="\kilogram\second\tothe{-2}\ampere\tothe{-1}"/>
+        <xs:attribute name="type" type="xs:string" fixed="Named SI derived unit"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#SISpecialNamedUnit"/>
+    </xs:complexType>
+    <xs:complexType name="tonneType">
+        <xs:attribute name="unitName" type="xs:string" fixed="tonne"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="t"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\tonne"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/tonne"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed="\kilogram"/>
+        <xs:attribute name="type" type="xs:string" fixed="Non-SI unit accepted for use with the SI"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#nonSIUnit"/>
+    </xs:complexType>
+    <xs:complexType name="voltType">
+        <xs:attribute name="unitName" type="xs:string" fixed="volt"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="V"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\volt"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/volt"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string"
+                      fixed="\metre\tothe{2}\kilogram\second\tothe{-3}\ampere\tothe{-1}"/>
+        <xs:attribute name="type" type="xs:string" fixed="Named SI derived unit"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#SISpecialNamedUnit"/>
+    </xs:complexType>
+    <xs:complexType name="wattType">
+        <xs:attribute name="unitName" type="xs:string" fixed="watt"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="W"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\watt"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/watt"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string" fixed="\metre\tothe{2}\kilogram\second\tothe{-3}"/>
+        <xs:attribute name="type" type="xs:string" fixed="Named SI derived unit"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#SISpecialNamedUnit"/>
+    </xs:complexType>
+    <xs:complexType name="weberType">
+        <xs:attribute name="unitName" type="xs:string" fixed="weber"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="Wb"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\weber"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/units/weber"/>
+        <xs:attribute name="dsiBaseUnitExpression" type="xs:string"
+                      fixed="\metre\tothe{2}\kilogram\second\tothe{-2}\ampere\tothe{-1}"/>
+        <xs:attribute name="type" type="xs:string" fixed="Named SI derived unit"/>
+        <xs:attribute name="typeId" type="xs:string" fixed="https://si-digital-framework.org/SI#SISpecialNamedUnit"/>
+    </xs:complexType>
+    <xs:complexType name="quectoPrefixType">
+        <xs:attribute name="prefixName" type="xs:string" fixed="quecto"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="q"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\quecto"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/prefixes/quecto"/>
+        <xs:attribute name="doi" type="xs:string" fixed="https://doi.org/10.59161/cgpm2022res3e"/>
+        <xs:attribute name="type" type="xs:string" fixed="Prefix"/>
+        <xs:attribute name="scalingFactor" type="xs:string" fixed="1e-30"/>
+    </xs:complexType>
+    <xs:complexType name="rontoPrefixType">
+        <xs:attribute name="prefixName" type="xs:string" fixed="ronto"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="r"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\ronto"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/prefixes/ronto"/>
+        <xs:attribute name="doi" type="xs:string" fixed="https://doi.org/10.59161/cgpm2022res3e"/>
+        <xs:attribute name="type" type="xs:string" fixed="Prefix"/>
+        <xs:attribute name="scalingFactor" type="xs:string" fixed="1e-27"/>
+    </xs:complexType>
+    <xs:complexType name="yoctoPrefixType">
+        <xs:attribute name="prefixName" type="xs:string" fixed="yocto"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="y"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\yocto"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/prefixes/yocto"/>
+        <xs:attribute name="doi" type="xs:string" fixed="https://doi.org/10.59161/cgpm1991res4e"/>
+        <xs:attribute name="type" type="xs:string" fixed="Prefix"/>
+        <xs:attribute name="scalingFactor" type="xs:string" fixed="1e-24"/>
+    </xs:complexType>
+    <xs:complexType name="zeptoPrefixType">
+        <xs:attribute name="prefixName" type="xs:string" fixed="zepto"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="z"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\zepto"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/prefixes/zepto"/>
+        <xs:attribute name="doi" type="xs:string" fixed="https://doi.org/10.59161/cgpm1991res4e"/>
+        <xs:attribute name="type" type="xs:string" fixed="Prefix"/>
+        <xs:attribute name="scalingFactor" type="xs:string" fixed="1e-21"/>
+    </xs:complexType>
+    <xs:complexType name="attoPrefixType">
+        <xs:attribute name="prefixName" type="xs:string" fixed="atto"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="a"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\atto"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/prefixes/atto"/>
+        <xs:attribute name="doi" type="xs:string" fixed="https://doi.org/10.59161/cgpm1964res8e"/>
+        <xs:attribute name="type" type="xs:string" fixed="Prefix"/>
+        <xs:attribute name="scalingFactor" type="xs:string" fixed="1e-18"/>
+    </xs:complexType>
+    <xs:complexType name="femtoPrefixType">
+        <xs:attribute name="prefixName" type="xs:string" fixed="femto"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="f"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\femto"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/prefixes/femto"/>
+        <xs:attribute name="doi" type="xs:string" fixed="https://doi.org/10.59161/cgpm1964res8e"/>
+        <xs:attribute name="type" type="xs:string" fixed="Prefix"/>
+        <xs:attribute name="scalingFactor" type="xs:string" fixed="1e-15"/>
+    </xs:complexType>
+    <xs:complexType name="picoPrefixType">
+        <xs:attribute name="prefixName" type="xs:string" fixed="pico"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="p"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\pico"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/prefixes/pico"/>
+        <xs:attribute name="doi" type="xs:string" fixed="https://doi.org/10.59161/cgpm1960res12e"/>
+        <xs:attribute name="type" type="xs:string" fixed="Prefix"/>
+        <xs:attribute name="scalingFactor" type="xs:string" fixed="1e-12"/>
+    </xs:complexType>
+    <xs:complexType name="nanoPrefixType">
+        <xs:attribute name="prefixName" type="xs:string" fixed="nano"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="n"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\nano"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/prefixes/nano"/>
+        <xs:attribute name="doi" type="xs:string" fixed="https://doi.org/10.59161/cgpm1960res12e"/>
+        <xs:attribute name="type" type="xs:string" fixed="Prefix"/>
+        <xs:attribute name="scalingFactor" type="xs:string" fixed="1e-09"/>
+    </xs:complexType>
+    <xs:complexType name="microPrefixType">
+        <xs:attribute name="prefixName" type="xs:string" fixed="micro"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="μ"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\micro"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/prefixes/micro"/>
+        <xs:attribute name="doi" type="xs:string" fixed="https://doi.org/10.59161/cgpm1960res12e"/>
+        <xs:attribute name="type" type="xs:string" fixed="Prefix"/>
+        <xs:attribute name="scalingFactor" type="xs:string" fixed="1e-06"/>
+    </xs:complexType>
+    <xs:complexType name="milliPrefixType">
+        <xs:attribute name="prefixName" type="xs:string" fixed="milli"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="m"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\milli"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/prefixes/milli"/>
+        <xs:attribute name="doi" type="xs:string" fixed="https://doi.org/10.59161/cgpm1960res12e"/>
+        <xs:attribute name="type" type="xs:string" fixed="Prefix"/>
+        <xs:attribute name="scalingFactor" type="xs:string" fixed="1e-03"/>
+    </xs:complexType>
+    <xs:complexType name="centiPrefixType">
+        <xs:attribute name="prefixName" type="xs:string" fixed="centi"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="c"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\centi"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/prefixes/centi"/>
+        <xs:attribute name="doi" type="xs:string" fixed="https://doi.org/10.59161/cgpm1960res12e"/>
+        <xs:attribute name="type" type="xs:string" fixed="Prefix"/>
+        <xs:attribute name="scalingFactor" type="xs:string" fixed="1e-02"/>
+    </xs:complexType>
+    <xs:complexType name="deciPrefixType">
+        <xs:attribute name="prefixName" type="xs:string" fixed="deci"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="d"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\deci"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/prefixes/deci"/>
+        <xs:attribute name="doi" type="xs:string" fixed="https://doi.org/10.59161/cgpm1960res12e"/>
+        <xs:attribute name="type" type="xs:string" fixed="Prefix"/>
+        <xs:attribute name="scalingFactor" type="xs:string" fixed="1e-01"/>
+    </xs:complexType>
+    <xs:complexType name="decaPrefixType">
+        <xs:attribute name="prefixName" type="xs:string" fixed="deca"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="da"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\deca"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/prefixes/deca"/>
+        <xs:attribute name="doi" type="xs:string" fixed="https://doi.org/10.59161/cgpm1960res12e"/>
+        <xs:attribute name="type" type="xs:string" fixed="Prefix"/>
+        <xs:attribute name="scalingFactor" type="xs:string" fixed="1e+01"/>
+    </xs:complexType>
+    <xs:complexType name="hectoPrefixType">
+        <xs:attribute name="prefixName" type="xs:string" fixed="hecto"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="h"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\hecto"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/prefixes/hecto"/>
+        <xs:attribute name="doi" type="xs:string" fixed="https://doi.org/10.59161/cgpm1960res12e"/>
+        <xs:attribute name="type" type="xs:string" fixed="Prefix"/>
+        <xs:attribute name="scalingFactor" type="xs:string" fixed="1e+02"/>
+    </xs:complexType>
+    <xs:complexType name="kiloPrefixType">
+        <xs:attribute name="prefixName" type="xs:string" fixed="kilo"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="k"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\kilo"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/prefixes/kilo"/>
+        <xs:attribute name="doi" type="xs:string" fixed="https://doi.org/10.59161/cgpm1960res12e"/>
+        <xs:attribute name="type" type="xs:string" fixed="Prefix"/>
+        <xs:attribute name="scalingFactor" type="xs:string" fixed="1e+03"/>
+    </xs:complexType>
+    <xs:complexType name="megaPrefixType">
+        <xs:attribute name="prefixName" type="xs:string" fixed="mega"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="M"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\mega"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/prefixes/mega"/>
+        <xs:attribute name="doi" type="xs:string" fixed="https://doi.org/10.59161/cgpm1960res12e"/>
+        <xs:attribute name="type" type="xs:string" fixed="Prefix"/>
+        <xs:attribute name="scalingFactor" type="xs:string" fixed="1e+06"/>
+    </xs:complexType>
+    <xs:complexType name="gigaPrefixType">
+        <xs:attribute name="prefixName" type="xs:string" fixed="giga"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="G"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\giga"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/prefixes/giga"/>
+        <xs:attribute name="doi" type="xs:string" fixed="https://doi.org/10.59161/cgpm1960res12e"/>
+        <xs:attribute name="type" type="xs:string" fixed="Prefix"/>
+        <xs:attribute name="scalingFactor" type="xs:string" fixed="1e+09"/>
+    </xs:complexType>
+    <xs:complexType name="teraPrefixType">
+        <xs:attribute name="prefixName" type="xs:string" fixed="tera"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="T"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="era"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/prefixes/tera"/>
+        <xs:attribute name="doi" type="xs:string" fixed="https://doi.org/10.59161/cgpm1960res12e"/>
+        <xs:attribute name="type" type="xs:string" fixed="Prefix"/>
+        <xs:attribute name="scalingFactor" type="xs:string" fixed="1e+12"/>
+    </xs:complexType>
+    <xs:complexType name="petaPrefixType">
+        <xs:attribute name="prefixName" type="xs:string" fixed="peta"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="P"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\peta"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/prefixes/peta"/>
+        <xs:attribute name="doi" type="xs:string" fixed="https://doi.org/10.59161/cgpm1975res10e"/>
+        <xs:attribute name="type" type="xs:string" fixed="Prefix"/>
+        <xs:attribute name="scalingFactor" type="xs:string" fixed="1e+15"/>
+    </xs:complexType>
+    <xs:complexType name="exaPrefixType">
+        <xs:attribute name="prefixName" type="xs:string" fixed="exa"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="E"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\exa"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/prefixes/exa"/>
+        <xs:attribute name="doi" type="xs:string" fixed="https://doi.org/10.59161/cgpm1975res10e"/>
+        <xs:attribute name="type" type="xs:string" fixed="Prefix"/>
+        <xs:attribute name="scalingFactor" type="xs:string" fixed="1e+18"/>
+    </xs:complexType>
+    <xs:complexType name="zettaPrefixType">
+        <xs:attribute name="prefixName" type="xs:string" fixed="zetta"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="Z"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\zetta"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/prefixes/zetta"/>
+        <xs:attribute name="doi" type="xs:string" fixed="https://doi.org/10.59161/cgpm1991res4e"/>
+        <xs:attribute name="type" type="xs:string" fixed="Prefix"/>
+        <xs:attribute name="scalingFactor" type="xs:string" fixed="1e+21"/>
+    </xs:complexType>
+    <xs:complexType name="yottaPrefixType">
+        <xs:attribute name="prefixName" type="xs:string" fixed="yotta"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="Y"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\yotta"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/prefixes/yotta"/>
+        <xs:attribute name="doi" type="xs:string" fixed="https://doi.org/10.59161/cgpm1991res4e"/>
+        <xs:attribute name="type" type="xs:string" fixed="Prefix"/>
+        <xs:attribute name="scalingFactor" type="xs:string" fixed="1e+24"/>
+    </xs:complexType>
+    <xs:complexType name="ronnaPrefixType">
+        <xs:attribute name="prefixName" type="xs:string" fixed="ronna"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="R"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\ronna"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/prefixes/ronna"/>
+        <xs:attribute name="doi" type="xs:string" fixed="https://doi.org/10.59161/cgpm2022res3e"/>
+        <xs:attribute name="type" type="xs:string" fixed="Prefix"/>
+        <xs:attribute name="scalingFactor" type="xs:string" fixed="1e+27"/>
+    </xs:complexType>
+    <xs:complexType name="quettaPrefixType">
+        <xs:attribute name="prefixName" type="xs:string" fixed="quetta"/>
+        <xs:attribute name="symbol" type="xs:string" fixed="Q"/>
+        <xs:attribute name="dsiId" type="xs:string" fixed="\quetta"/>
+        <xs:attribute name="sirpPID" type="xs:string" fixed="https://si-digital-framework.org/SI/prefixes/quetta"/>
+        <xs:attribute name="doi" type="xs:string" fixed="https://doi.org/10.59161/cgpm2022res3e"/>
+        <xs:attribute name="type" type="xs:string" fixed="Prefix"/>
+        <xs:attribute name="scalingFactor" type="xs:string" fixed="1e+30"/>
+    </xs:complexType>
+
+
+</xs:schema>
