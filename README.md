@@ -5,7 +5,7 @@ validation, and authoritative traceability of units in Digital Calibration Certi
 
 ## Overview
 
-This repository presents a Digital-SI (D-SI) meta model (version: `D-SI-nim-v2.2.0`) designed to address the
+This repository presents a Digital-SI (D-SI) meta model (version: `D-SI-nim-v2.0.1`) designed to address the
 critical limitations of existing D-SI frameworks in machine interpretability and traceability.
 
 By integrating a Non-deterministic Finite Automaton (NFA) for syntax parsing and a Metadata Description Framework (MDF)
