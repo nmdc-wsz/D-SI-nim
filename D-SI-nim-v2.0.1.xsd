@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema version="2.2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+<xs:schema version="2.0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema"
            targetNamespace="https://www.nim.ac.cn/si"
            xmlns:si="https://www.nim.ac.cn/si"
            elementFormDefault="qualified">
@@ -1683,3 +1683,4 @@
 
 
 </xs:schema>
+
